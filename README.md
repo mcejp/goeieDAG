@@ -13,7 +13,6 @@ import goeiedag
 from goeiedag import ALL_INPUTS, INPUT, OUTPUT
 
 workdir = Path("output")
-workdir.mkdir(exist_ok=True)
 
 graph = goeiedag.CommandGraph()
 

@@ -34,6 +34,7 @@ def _sanitize_rule_name(string: str) -> str:
 
 
 def build_all(g: CommandGraph, workdir: Path):
+    workdir.mkdir(exist_ok=True)
 
     with open(workdir / "build.ninja", "wt") as output:
         writer = ninja.Writer(output)
