@@ -48,6 +48,13 @@ print((workdir / "result.txt").read_text())
 - Graph edges are implicitly defined by input/output file names
 - A high-quality executor (Ninja) is available and installable via a Python package
 
+### How is this different from using the Ninja package directly?
+
+- Simpler mental model & usage: no need to separately define build rules or think about implicit/explicit inputs and
+  outputs
+- API accepts Paths; no need to cast everything to `str`!
+- Higher-level API in general (for example, the output directory is created automatically)
+
 
 ## Similar projects
 
