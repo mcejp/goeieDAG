@@ -10,21 +10,23 @@ make it extremely easy to benefit from parallel processing in any graph-like wor
 from pathlib import Path
 
 import goeiedag
+from goeiedag import ALL_INPUTS, INPUT, OUTPUT
 
 workdir = Path("output")
 workdir.mkdir(exist_ok=True)
 
 graph = goeiedag.CommandGraph()
-# Get OS name
-graph.add(["grep", "^NAME=", "/etc/os-release", ">", "os-name.txt"],
+
+# Extract OS name from /etc/os-release
+graph.add(["grep", "^NAME=", INPUT, ">", OUTPUT],
           inputs=["/etc/os-release"],
           outputs=["os-name.txt"])
 # Get username
-graph.add(["whoami", ">", "username.txt"],
+graph.add(["whoami", ">", OUTPUT],
           inputs=[],
           outputs=["username.txt"])
 # Glue together to produce output
-graph.add(["cat", "os-name.txt", "username.txt", ">", "result.txt"],
+graph.add(["cat", ALL_INPUTS, ">", OUTPUT],
           inputs=["os-name.txt", "username.txt"],
           outputs=["result.txt"])
 

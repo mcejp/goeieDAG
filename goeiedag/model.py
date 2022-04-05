@@ -3,7 +3,19 @@ from pathlib import Path
 from typing import List, Union, Sequence
 
 
+class _Input:
+    pass
+
+
+class _Output:
+    pass
+
+
 CmdArgument = Union[Path, str]
+ALL_INPUTS = _Input()
+ALL_OUTPUTS = _Output()
+INPUT = _Input()  # unique input (asserted)
+OUTPUT = _Output()   # unique output (asserted)
 
 
 @dataclass
@@ -26,15 +38,30 @@ class CommandGraph:
 
     def add(
         self,
-        command: Sequence[CmdArgument],
+        command: Sequence[Union[CmdArgument, _Input, _Output]],
         *,
         inputs: Sequence[Union[Path, str]],
         outputs: Sequence[Union[Path, str]]
     ) -> None:
+        command_expanded: List[Union[CmdArgument]] = []
+
+        for arg in command:
+            if arg is ALL_INPUTS:
+                command_expanded += inputs
+            elif arg is ALL_OUTPUTS:
+                command_expanded += outputs
+            elif isinstance(arg, _Input):
+                assert len(inputs) == 1
+                command_expanded += inputs
+            elif isinstance(arg, _Output):
+                assert len(outputs) == 1
+                command_expanded += outputs
+            else:
+                command_expanded.append(arg)
 
         self.tasks.append(
             _Task(
-                command=command,
+                command=command_expanded,
                 inputs=[Path(input) for input in inputs],
                 outputs=[Path(output) for output in outputs],
             )
