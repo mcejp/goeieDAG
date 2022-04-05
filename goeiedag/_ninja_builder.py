@@ -7,7 +7,7 @@ from typing import List, Sequence
 
 import ninja
 
-from .model import BuildFailure, CmdArgument, CommandGraph
+from ._model import BuildFailure, CmdArgument, CommandGraph
 
 
 logger = logging.getLogger(__name__)
