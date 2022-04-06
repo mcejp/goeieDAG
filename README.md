@@ -27,9 +27,9 @@ graph.add(["whoami", ">", OUTPUT],
           inputs=[],
           outputs=["username.txt"])
 # Glue together to produce output
-graph.add(["cat", ALL_INPUTS, ">", OUTPUT],
+graph.add(["cat", ALL_INPUTS, ">", OUTPUT.result],
           inputs=["os-name.txt", "username.txt"],
-          outputs=["result.txt"])
+          outputs=dict(result="result.txt"))  # can also use a dictionary and refer to inputs/outputs by name
 
 goeiedag.build_all(graph, workdir)
 
