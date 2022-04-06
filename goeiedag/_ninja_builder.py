@@ -48,7 +48,7 @@ def build_all(g: CommandGraph, workdir: Path):
 
             writer.rule(
                 name=rule_name,
-                command=" ".join(ninja.escape(str(arg)) for arg in task.command),
+                command=" ".join(ninja.escape(shlex.quote(str(arg))) for arg in task.command),
             )
             writer.newline()
 
