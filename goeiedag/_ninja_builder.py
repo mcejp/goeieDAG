@@ -1,9 +1,10 @@
 import logging
 from pathlib import Path
 import re
+import shlex
 import subprocess
 import time
-from typing import List, Sequence
+from typing import List, Optional, Sequence
 
 import ninja
 
@@ -33,10 +34,11 @@ def _sanitize_rule_name(string: str) -> str:
     return re.sub(_full_pattern, "_", string)
 
 
-def build_all(g: CommandGraph, workdir: Path):
-    workdir.mkdir(exist_ok=True)
+def build_all(g: CommandGraph, build_dir: Path, cwd: Optional[Path] = None):
+    build_dir.mkdir(exist_ok=True)
+    ninjafile_path = build_dir / "build.ninja"
 
-    with open(workdir / "build.ninja", "wt") as output:
+    with open(ninjafile_path, "wt") as output:
         writer = ninja.Writer(output)
 
         rule_names: List[str] = []
@@ -71,7 +73,7 @@ def build_all(g: CommandGraph, workdir: Path):
     pre = time.time()
 
     try:
-        subprocess.check_call([Path(ninja.BIN_DIR) / "ninja"], cwd=workdir)
+        subprocess.check_call([Path(ninja.BIN_DIR) / "ninja", "-f", ninjafile_path.absolute()], cwd=cwd or build_dir)
     except subprocess.CalledProcessError as ex:
         raise BuildFailure(f"Ninja build returned error code {ex.returncode}") from None
     finally:
