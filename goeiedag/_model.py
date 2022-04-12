@@ -28,7 +28,7 @@ class _Output(_PlaceholderBase):
 
 
 CmdArgument = Path | str
-InputsOutputsListOrDict = Union[Dict[str, Path], Sequence[Path]]
+InputsOutputs = Dict[Union[int, str], Path]
 ALL_INPUTS = _Input(None)
 ALL_OUTPUTS = _Output(None)
 INPUT = _Input("")  # unique input (asserted)
@@ -38,8 +38,8 @@ OUTPUT = _Output("")   # unique output (asserted)
 @dataclass
 class _Task:
     command: Sequence[Union[CmdArgument, _PlaceholderBase]]
-    inputs: InputsOutputsListOrDict
-    outputs: InputsOutputsListOrDict
+    inputs: InputsOutputs
+    outputs: InputsOutputs
 
 
 # Deliberately not named BuildError, because it represents a non-specific failure of the build as a whole

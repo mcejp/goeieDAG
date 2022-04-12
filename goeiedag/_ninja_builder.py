@@ -8,7 +8,7 @@ from typing import List, Optional, Sequence
 
 import ninja
 
-from ._graph import CommandGraph, map_values, resolve_placeholders
+from ._graph import CommandGraph, map_dict_values, resolve_placeholders
 from ._model import BuildFailure, CmdArgument
 
 
@@ -46,8 +46,8 @@ def write_ninja_file(g: CommandGraph, output):
         # Inputs/outputs must be shell-escaped before being substituted into the command.
         # This way, literal tokens in the command will be preserved, allowing use of shell features like output
         # redirections, but inserted input/output names will be sanitized.
-        inputs_shellesc = map_values(task.inputs, lambda path: shlex.quote(str(path)))
-        outputs_shellesc = map_values(task.outputs, lambda path: shlex.quote(str(path)))
+        inputs_shellesc = map_dict_values(task.inputs, lambda path: shlex.quote(str(path)))
+        outputs_shellesc = map_dict_values(task.outputs, lambda path: shlex.quote(str(path)))
 
         command = resolve_placeholders(task.command, inputs_shellesc, outputs_shellesc)
 
@@ -68,18 +68,18 @@ def write_ninja_file(g: CommandGraph, output):
     for i, (inputs, outputs, command) in enumerate(flat_tasks):
         writer.build(
             rule=rule_names[i],
-            inputs=[str(i) for i in inputs],
-            outputs=[str(i) for i in outputs],
+            inputs=[str(i) for i in inputs.values()],
+            outputs=[str(i) for i in outputs.values()],
         )
         writer.newline()
 
         if len(outputs):
-            writer.default([str(i) for i in outputs])
+            writer.default([str(i) for i in outputs.values()])
             writer.newline()
 
     # emit Phony statements for aliases
-    for name, inputs in g.aliases.items():
-        writer.build(rule="phony", inputs=[str(i) for i in inputs], outputs=[name])
+    for name, inputs_list in g.aliases.items():
+        writer.build(rule="phony", inputs=[str(i) for i in inputs_list], outputs=[name])
 
     writer.close()
     del writer

@@ -52,3 +52,13 @@ def test_alias():
         assert (Path(dir) / "file1").exists()
         assert not (Path(dir) / "file2").exists()
         assert (Path(dir) / "file3").exists()
+
+
+def test_outputs_dict():
+    with tempfile.TemporaryDirectory() as dir:
+        graph = goeiedag.CommandGraph()
+
+        graph.add(["touch", OUTPUT.foo], inputs=[], outputs=dict(foo="file1"))
+        graph.add(["touch", OUTPUT.foo], inputs=[], outputs=dict(foo="file2"))
+
+        goeiedag.build_all(graph, Path(dir))
