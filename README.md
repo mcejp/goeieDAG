@@ -2,7 +2,7 @@
 
 _/ɣu.jə.ˈdɑx/: hello, good day (Dutch greeting used during daytime)_
 
-goeieDAG provides a neutral Python API to Ninja and Make (_TODO_) build systems, aiming to
+goeieDAG provides a unified Python API to Ninja and Make (_TODO_) build systems, aiming to
 make it extremely easy to benefit from parallel processing in any graph-like workflow.
 
 
