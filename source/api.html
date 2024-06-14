@@ -47,9 +47,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#goeiedag.CommandGraph"><code class="docutils literal notranslate"><span class="pre">CommandGraph</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#goeiedag.CommandGraph.add"><code class="docutils literal notranslate"><span class="pre">CommandGraph.add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#goeiedag.CommandGraph.add_alias"><code class="docutils literal notranslate"><span class="pre">CommandGraph.add_alias()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#goeiedag.Graph"><code class="docutils literal notranslate"><span class="pre">Graph</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#goeiedag.Graph.add"><code class="docutils literal notranslate"><span class="pre">Graph.add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goeiedag.Graph.add_alias"><code class="docutils literal notranslate"><span class="pre">Graph.add_alias()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#goeiedag.build_all"><code class="docutils literal notranslate"><span class="pre">build_all()</span></code></a></li>
@@ -85,14 +85,14 @@
   <section id="module-goeiedag">
 <span id="api-reference"></span><h1>API reference<a class="headerlink" href="#module-goeiedag" title="Link to this heading"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="goeiedag.CommandGraph">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goeiedag.</span></span><span class="sig-name descname"><span class="pre">CommandGraph</span></span><a class="headerlink" href="#goeiedag.CommandGraph" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goeiedag.Graph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goeiedag.</span></span><span class="sig-name descname"><span class="pre">Graph</span></span><a class="headerlink" href="#goeiedag.Graph" title="Link to this definition"></a></dt>
 <dd><p>This class is used to define the graph of inputs, outputs and the processing steps in between.</p>
-<p>A graph defines a set of <em>targets</em>, each being either an output of a <a class="reference internal" href="#goeiedag.CommandGraph.add" title="goeiedag.CommandGraph.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">command</span></code></a>,
-or an <a class="reference internal" href="#goeiedag.CommandGraph.add_alias" title="goeiedag.CommandGraph.add_alias"><code class="xref py py-meth docutils literal notranslate"><span class="pre">alias</span></code></a>.</p>
+<p>A graph defines a set of <em>targets</em>, each being either an output of a <a class="reference internal" href="#goeiedag.Graph.add" title="goeiedag.Graph.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">command</span></code></a>,
+or an <a class="reference internal" href="#goeiedag.Graph.add_alias" title="goeiedag.Graph.add_alias"><code class="xref py py-meth docutils literal notranslate"><span class="pre">alias</span></code></a>.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="goeiedag.CommandGraph.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goeiedag.CommandGraph.add" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goeiedag.Graph.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goeiedag.Graph.add" title="Link to this definition"></a></dt>
 <dd><p>Define how the given inputs are transformed into outputs.</p>
 <p>The command, its arguments, inputs and outputs can be any combination of <code class="docutils literal notranslate"><span class="pre">str</span></code> and <code class="docutils literal notranslate"><span class="pre">Path</span></code>.</p>
 <dl class="field-list simple">
@@ -116,8 +116,8 @@ May contain input/output <a class="reference internal" href="introduction.html#p
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goeiedag.CommandGraph.add_alias">
-<span class="sig-name descname"><span class="pre">add_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goeiedag.CommandGraph.add_alias" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goeiedag.Graph.add_alias">
+<span class="sig-name descname"><span class="pre">add_alias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goeiedag.Graph.add_alias" title="Link to this definition"></a></dt>
 <dd><p>Create an alias target. Building this target will build all the targets named as arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -144,7 +144,7 @@ May contain input/output <a class="reference internal" href="introduction.html#p
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>g</strong> (<a class="reference internal" href="#goeiedag.CommandGraph" title="goeiedag.CommandGraph"><em>CommandGraph</em></a>) – a graph</p></li>
+<li><p><strong>g</strong> (<a class="reference internal" href="#goeiedag.Graph" title="goeiedag.Graph"><em>Graph</em></a>) – a graph</p></li>
 <li><p><strong>build_dir</strong> (<em>Path</em>) – A directory which will be used for build-related files (Ninja file, etc.)</p></li>
 <li><p><strong>cwd</strong> (<em>Path</em><em> or </em><em>None</em>) – Working directory for the build. Any relative paths specified in the graph will be relative to this directory.
 If not specified, <cite>build_dir</cite> will be used.</p></li>
@@ -160,7 +160,7 @@ If not specified, <cite>build_dir</cite> will be used.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>g</strong> (<a class="reference internal" href="#goeiedag.CommandGraph" title="goeiedag.CommandGraph"><em>CommandGraph</em></a>) – a graph</p></li>
+<li><p><strong>g</strong> (<a class="reference internal" href="#goeiedag.Graph" title="goeiedag.Graph"><em>Graph</em></a>) – a graph</p></li>
 <li><p><strong>build_dir</strong> (<em>Path</em>) – A directory which will be used for build-related files (Ninja file, etc.)</p></li>
 <li><p><strong>targets</strong> (<em>sequence</em><em> of </em><em>str and/or Path</em>) – A set of previously declared targets (outputs or aliases) to build.</p></li>
 <li><p><strong>cwd</strong> (<em>Path</em><em> or </em><em>None</em>) – Working directory for the build. Any relative paths specified in the graph will be relative to this directory.
