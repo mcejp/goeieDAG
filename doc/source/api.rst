@@ -1,8 +1,5 @@
-goeiedag package
-================
-
-Module contents
----------------
+API reference
+=============
 
 .. automodule:: goeiedag
    :imported-members:

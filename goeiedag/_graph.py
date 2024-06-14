@@ -61,8 +61,15 @@ def resolve_placeholders(command: Sequence,
 
 
 class CommandGraph:
-    aliases: Dict[str, Sequence[Path]]
-    tasks: List[_Task]
+    """
+    This class is used to define the graph of inputs, outputs and the processing steps in between.
+
+    A graph defines a set of *targets*, each being either an output of a :py:meth:`command <add>`,
+    or an :py:meth:`alias <add_alias>`.
+    """
+
+    aliases: Dict[str, Sequence[Path]]  #: :meta private:
+    tasks: List[_Task]                  #: :meta private:
 
     def __init__(self):
         self.aliases = {}
@@ -75,6 +82,29 @@ class CommandGraph:
             inputs: Sequence[Path | str] | Dict[str, Path | str],
             outputs: Sequence[Path | str] | Dict[str, Path | str]
     ) -> None:
+        """
+        Define how the given inputs are transformed into outputs.
+
+        The command, its arguments, inputs and outputs can be any combination of ``str`` and ``Path``.
+
+        :param command: The command and its arguments.
+                        May contain input/output :ref:`placeholders <placeholders>`.
+        :type command: sequence
+        :param inputs: Inputs to the command, as a sequence or dict with ``str`` keys.
+        :type inputs: sequence or dict
+        :param outputs: Outputs of the command, as a sequence or dict with ``str`` keys.
+        :type outputs: sequence or dict
+
+
+        :Example:
+
+        Concatenate two files to produce a third one::
+
+            graph.add(["cat", ALL_INPUTS, ">", OUTPUT.result],
+                      inputs=["os-name.txt", "username.txt"],
+                      outputs=dict(result="result.txt"))
+        """
+
         self.tasks.append(
             _Task(
                 command=command,
@@ -87,6 +117,17 @@ class CommandGraph:
     def add_alias(self,
                   *args: Union[Path, str],
                   name: Optional[str] = None) -> str:
+        """
+        Create an alias target. Building this target will build all the targets named as arguments.
+
+        :param args: One or more targets.
+        :type args: sequence of str and/or Path
+        :param name: Optional name of the alias. If not provided, a unique name will be assigned.
+        :type name: str or None
+        :return: The name of the new alias.
+        :rtype: str
+        """
+
         if name is None:
             name = f"_alias_{len(self.aliases)}"
 

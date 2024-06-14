@@ -86,8 +86,22 @@ def write_ninja_file(g: CommandGraph, output):
 
 
 def build_targets(g: CommandGraph, build_dir: Path, targets: Optional[Sequence[CmdArgument]], cwd: Optional[Path] = None):
+    """
+    Build the given targets.
+
+    :param g: a graph
+    :type g: CommandGraph
+    :param build_dir: A directory which will be used for build-related files (Ninja file, etc.)
+    :type build_dir: Path
+    :param targets: A set of previously declared targets (outputs or aliases) to build.
+    :type targets: sequence of str and/or Path
+    :param cwd: Working directory for the build. Any relative paths specified in the graph will be relative to this directory.
+                If not specified, `build_dir` will be used.
+    :type cwd: Path or None
+    """
+
     # targets = outputs | aliases
-    if targets and not len(targets):
+    if targets is not None and len(targets) == 0:
         return  # nothing to do
 
     build_dir.mkdir(exist_ok=True)
@@ -103,7 +117,11 @@ def build_targets(g: CommandGraph, build_dir: Path, targets: Optional[Sequence[C
     logger.info("write_ninja_file took %d msec", int((post - pre) * 1000))
 
     pre = time.time()
-    extra_arguments = [str(x) for x in targets] if targets else []
+
+    if targets is not None:
+        extra_arguments = [str(x) for x in targets]
+    else:
+        extra_arguments = []  # build all targets
 
     try:
         subprocess.check_call([Path(ninja.BIN_DIR) / "ninja", "-f", ninjafile_path.absolute()] + extra_arguments, cwd=cwd or build_dir)
@@ -114,5 +132,18 @@ def build_targets(g: CommandGraph, build_dir: Path, targets: Optional[Sequence[C
 
         logger.info("Ninja build took %d msec", int((post - pre) * 1000))
 
+
 def build_all(g: CommandGraph, build_dir: Path, cwd: Optional[Path] = None):
+    """
+    Build all targets in the given graph.
+
+    :param g: a graph
+    :type g: CommandGraph
+    :param build_dir: A directory which will be used for build-related files (Ninja file, etc.)
+    :type build_dir: Path
+    :param cwd: Working directory for the build. Any relative paths specified in the graph will be relative to this directory.
+                If not specified, `build_dir` will be used.
+    :type cwd: Path or None
+    """
+
     return build_targets(g, build_dir, targets=None, cwd=cwd)
