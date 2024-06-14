@@ -8,7 +8,7 @@ from typing import List, Optional, Sequence
 
 import ninja
 
-from ._graph import CommandGraph, map_dict_values, resolve_placeholders
+from ._graph import Graph, map_dict_values, resolve_placeholders
 from ._model import BuildFailure, CmdArgument
 
 
@@ -35,7 +35,7 @@ def _sanitize_rule_name(string: str) -> str:
     return re.sub(_full_pattern, "_", string)
 
 
-def write_ninja_file(g: CommandGraph, output):
+def write_ninja_file(g: Graph, output):
     writer = ninja.Writer(output)
 
     rule_names: List[str] = []
@@ -85,12 +85,12 @@ def write_ninja_file(g: CommandGraph, output):
     del writer
 
 
-def build_targets(g: CommandGraph, build_dir: Path, targets: Optional[Sequence[CmdArgument]], cwd: Optional[Path] = None):
+def build_targets(g: Graph, build_dir: Path, targets: Optional[Sequence[CmdArgument]], cwd: Optional[Path] = None):
     """
     Build the given targets.
 
     :param g: a graph
-    :type g: CommandGraph
+    :type g: Graph
     :param build_dir: A directory which will be used for build-related files (Ninja file, etc.)
     :type build_dir: Path
     :param targets: A set of previously declared targets (outputs or aliases) to build.
@@ -133,12 +133,12 @@ def build_targets(g: CommandGraph, build_dir: Path, targets: Optional[Sequence[C
         logger.info("Ninja build took %d msec", int((post - pre) * 1000))
 
 
-def build_all(g: CommandGraph, build_dir: Path, cwd: Optional[Path] = None):
+def build_all(g: Graph, build_dir: Path, cwd: Optional[Path] = None):
     """
     Build all targets in the given graph.
 
     :param g: a graph
-    :type g: CommandGraph
+    :type g: Graph
     :param build_dir: A directory which will be used for build-related files (Ninja file, etc.)
     :type build_dir: Path
     :param cwd: Working directory for the build. Any relative paths specified in the graph will be relative to this directory.

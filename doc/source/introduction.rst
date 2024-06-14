@@ -22,7 +22,7 @@ Here are some examples of usage:
 
     workdir = Path("output")
 
-    graph = goeiedag.CommandGraph()
+    graph = goeiedag.Graph()
 
     # Extract OS name from /etc/os-release
     graph.add(["grep", "^NAME=", INPUT, ">", OUTPUT],

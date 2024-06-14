@@ -7,7 +7,7 @@ from goeiedag import ALL_INPUTS, INPUT, OUTPUT
 
 def test_basic():
     with tempfile.TemporaryDirectory() as dir:
-        graph = goeiedag.CommandGraph()
+        graph = goeiedag.Graph()
 
         # Extract OS name from /etc/os-release
         graph.add(["grep", "^NAME=", INPUT, ">", OUTPUT],
@@ -29,7 +29,7 @@ def test_basic():
 
 def test_escape():
     with tempfile.TemporaryDirectory() as dir:
-        graph = goeiedag.CommandGraph()
+        graph = goeiedag.Graph()
 
         graph.add(["echo", "Hello", ">", OUTPUT], inputs=[], outputs=[">weirdfilename"])
 
@@ -40,7 +40,7 @@ def test_escape():
 
 def test_alias():
     with tempfile.TemporaryDirectory() as dir:
-        graph = goeiedag.CommandGraph()
+        graph = goeiedag.Graph()
 
         graph.add(["echo", "Hello", ">", OUTPUT], inputs=[], outputs=["file1"])
         graph.add(["echo", "Hello", ">", OUTPUT], inputs=[], outputs=["file2"])
@@ -56,7 +56,7 @@ def test_alias():
 
 def test_outputs_dict():
     with tempfile.TemporaryDirectory() as dir:
-        graph = goeiedag.CommandGraph()
+        graph = goeiedag.Graph()
 
         graph.add(["touch", OUTPUT.foo], inputs=[], outputs=dict(foo="file1"))
         graph.add(["touch", OUTPUT.foo], inputs=[], outputs=dict(foo="file2"))

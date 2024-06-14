@@ -60,7 +60,7 @@ def resolve_placeholders(command: Sequence,
     return command_expanded
 
 
-class CommandGraph:
+class Graph:
     """
     This class is used to define the graph of inputs, outputs and the processing steps in between.
 
