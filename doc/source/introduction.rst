@@ -8,7 +8,7 @@ Install the package using *pip*:
 
 .. code-block:: shell
 
-    pip install goeieDAG
+    pip install goeieDAG==0.0.2
 
 
 Here are some examples of usage:

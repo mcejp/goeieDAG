@@ -6,6 +6,10 @@ goeieDAG provides a unified Python API to Ninja and Make (_TODO_) build systems,
 make it extremely easy to benefit from parallel processing in any graph-like workflow.
 
 
+## Installation
+
+    pip install goeieDAG==0.0.2
+
 ## Usage
 
 ```python
