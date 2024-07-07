@@ -61,6 +61,10 @@ print((workdir / "result.txt").read_text())
 - API accepts Paths; no need to cast everything to `str`!
 - Higher-level API in general (for example, the output directory is created automatically)
 
+### Why is Python 3.10+ required?
+
+The code makes use of [PEP-604](https://peps.python.org/pep-0604/).
+
 
 ## Similar projects
 
